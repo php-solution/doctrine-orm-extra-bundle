@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root('doctrine_extra');
+        $root = $treeBuilder->root('doctrine_orm_extra');
 
         $root
             ->children()

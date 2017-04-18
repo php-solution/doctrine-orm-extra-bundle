@@ -7,9 +7,9 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * CiklumDoctrineExtraExtension
+ * DoctrineOrmExtraExtension
  */
-class CiklumDoctrineExtraExtension extends Extension
+class DoctrineOrmExtraExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -23,7 +23,7 @@ class CiklumDoctrineExtraExtension extends Extension
         $loader->load('services.yml');
 
         if (array_key_exists('entity_cache_map', $config)) {
-            $def = $container->findDefinition('doctrine_extra.orm.metadata.cache.listener');
+            $def = $container->findDefinition('doctrine_extra.orm.event_listener.cache_entity');
             $mappingConfig = $config['entity_cache_map'];
             foreach ($config['entity_cache_map'] as $entityName => $configItem) {
                 $def->addMethodCall('setCacheMap', [$entityName, $configItem['region'], $configItem['usage']]);

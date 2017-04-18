@@ -1,0 +1,4 @@
+services:
+    doctrine_extra.orm.event_listener.cache_entity:
+        class: PhpSolution\Doctrine\ORM\EventListener\CacheEntityListener
+        public: false
