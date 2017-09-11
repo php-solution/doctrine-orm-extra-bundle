@@ -92,7 +92,7 @@ abstract class AbstractFilter
     /**
      * @return string
      */
-    abstract function getFormClass(): string;
+    abstract protected function getFormClass(): string;
 
     /**
      * @param QueryBuilder $query
