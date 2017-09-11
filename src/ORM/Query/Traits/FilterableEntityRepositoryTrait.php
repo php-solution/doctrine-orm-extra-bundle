@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSolution\Doctrine\ORM\Traits;
+namespace PhpSolution\Doctrine\Query\ORM\Traits;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query;
