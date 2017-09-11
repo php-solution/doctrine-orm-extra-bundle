@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpSolution\Doctrine\Form\Type;
 
 use Doctrine\Common\Persistence\ObjectManager;

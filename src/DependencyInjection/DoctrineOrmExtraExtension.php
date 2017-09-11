@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpSolution\Doctrine\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
