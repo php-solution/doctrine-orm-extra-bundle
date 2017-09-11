@@ -59,6 +59,22 @@ abstract class AbstractFilter
     }
 
     /**
+     * @return bool
+     */
+    final public function isReady(): bool
+    {
+        return $this->filter->isSubmitted();
+    }
+
+    /**
+     * @return bool
+     */
+    final public function hasErrors(): bool
+    {
+        return $this->isReady() && count($this->filter->getErrors(true)) > 0;
+    }
+
+    /**
      * @param string $name
      * @param mixed  $default
      *
@@ -66,7 +82,7 @@ abstract class AbstractFilter
      */
     final public function getData(string $name, $default = null)
     {
-        if (!$this->filter->isSubmitted()) {
+        if (!$this->isReady()) {
             throw new \RuntimeException('Filter was not submitted');
         }
 

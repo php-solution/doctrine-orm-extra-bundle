@@ -17,9 +17,13 @@ abstract class AbstractRulesFilter extends AbstractFilter
      */
     public function filterQuery(QueryBuilder $query)
     {
+        if (!$this->isReady()) {
+            return $query;
+        }
+
         $filter = $this->getFilter();
         foreach ($this->getFilterRules() as $fieldName => $callable) {
-            $filterValue = $filter->get($fieldName)->getData();
+            $filterValue = $this->getData($fieldName);
             if ($filterValue instanceof \Countable) {
                 $filterValue = $filter->get($fieldName)->getNormData();
             }
