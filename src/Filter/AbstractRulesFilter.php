@@ -11,14 +11,14 @@ use Doctrine\ORM\QueryBuilder;
 abstract class AbstractRulesFilter extends AbstractFilter
 {
     /**
-     * @param QueryBuilder $query
+     * @param QueryBuilder $qb
      *
      * @return QueryBuilder
      */
-    public function filterQuery(QueryBuilder $query)
+    public function filterQuery(QueryBuilder $qb): QueryBuilder
     {
         if (!$this->isReady()) {
-            return $query;
+            return $qb;
         }
 
         $filter = $this->getFilter();
@@ -28,11 +28,11 @@ abstract class AbstractRulesFilter extends AbstractFilter
                 $filterValue = $filter->get($fieldName)->getNormData();
             }
             if (!$this->isEmptyValue($filterValue)) {
-                $callable($query, $filterValue);
+                $callable($qb, $filterValue);
             }
         }
 
-        return $query;
+        return $qb;
     }
 
     /**

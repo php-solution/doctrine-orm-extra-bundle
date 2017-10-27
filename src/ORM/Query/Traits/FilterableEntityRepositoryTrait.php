@@ -24,9 +24,29 @@ trait FilterableEntityRepositoryTrait
      */
     protected function getQueryByFilter(AbstractFilter $filter): Query
     {
-        return $filter
-            ->filterQuery($this->getQueryBuilder())
-            ->getQuery();
+        $qb = $this->getQueryBuilder();
+
+        $filter->filterQuery($qb);
+        $filter->orderQuery($qb);
+        $filter->limitQuery($qb);
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * @param AbstractFilter $filter
+     *
+     * @return int
+     */
+    public function countByFilter(AbstractFilter $filter): int
+    {
+        $qb = $this->getQueryBuilder();
+        $filter->filterQuery($qb);
+
+        return $qb
+            ->select('COUNT(DISTINCT ' . $qb->getRootAliases()[0] . '.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
@@ -37,7 +57,9 @@ trait FilterableEntityRepositoryTrait
      */
     public function findByFilter(AbstractFilter $filter, $hydrationMode = AbstractQuery::HYDRATE_OBJECT): array
     {
-        return $this->getQueryByFilter($filter)->getResult($hydrationMode);
+        return $this
+            ->getQueryByFilter($filter)
+            ->getResult($hydrationMode);
     }
 
     /**
@@ -48,6 +70,8 @@ trait FilterableEntityRepositoryTrait
      */
     public function findOneByFilter(AbstractFilter $filter, $hydrationMode = null): array
     {
-        return $this->getQueryByFilter($filter)->getSingleResult($hydrationMode);
+        return $this
+            ->getQueryByFilter($filter)
+            ->getSingleResult($hydrationMode);
     }
 }

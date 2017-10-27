@@ -48,12 +48,13 @@ abstract class AbstractFilter
 
     /**
      * @param null|string|array $data
+     * @param bool              $clearMissing
      *
      * @return self
      */
-    final public function submitData($data)
+    final public function submitData($data, bool $clearMissing = true)
     {
-        $this->filter->submit($data);
+        $this->filter->submit($data, $clearMissing);
 
         return $this;
     }
@@ -95,9 +96,29 @@ abstract class AbstractFilter
     abstract protected function getFormClass(): string;
 
     /**
-     * @param QueryBuilder $query
+     * @param QueryBuilder $qb
      *
      * @return QueryBuilder
      */
-    abstract public function filterQuery(QueryBuilder $query);
+    abstract public function filterQuery(QueryBuilder $qb): QueryBuilder;
+
+    /**
+     * @param QueryBuilder $qb
+     *
+     * @return QueryBuilder
+     */
+    public function orderQuery(QueryBuilder $qb): QueryBuilder
+    {
+        return $qb;
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     *
+     * @return QueryBuilder
+     */
+    public function limitQuery(QueryBuilder $qb): QueryBuilder
+    {
+        return $qb;
+    }
 }
