@@ -3,7 +3,6 @@
 namespace PhpSolution\Doctrine\ORM\Query\Traits;
 
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PhpSolution\Doctrine\Filter\AbstractFilter;
 
@@ -20,17 +19,16 @@ trait FilterableEntityRepositoryTrait
     /**
      * @param AbstractFilter $filter
      *
-     * @return Query
+     * @return QueryBuilder
      */
-    protected function getQueryByFilter(AbstractFilter $filter): Query
+    protected function getQueryBuilderByFilter(AbstractFilter $filter): QueryBuilder
     {
         $qb = $this->getQueryBuilder();
-
         $filter->filterQuery($qb);
         $filter->orderQuery($qb);
         $filter->limitQuery($qb);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
@@ -58,7 +56,8 @@ trait FilterableEntityRepositoryTrait
     public function findByFilter(AbstractFilter $filter, $hydrationMode = AbstractQuery::HYDRATE_OBJECT): array
     {
         return $this
-            ->getQueryByFilter($filter)
+            ->getQueryBuilderByFilter($filter)
+            ->getQuery()
             ->getResult($hydrationMode);
     }
 
@@ -71,7 +70,8 @@ trait FilterableEntityRepositoryTrait
     public function findOneByFilter(AbstractFilter $filter, $hydrationMode = null): array
     {
         return $this
-            ->getQueryByFilter($filter)
+            ->getQueryBuilderByFilter($filter)
+            ->getQuery()
             ->getSingleResult($hydrationMode);
     }
 }
